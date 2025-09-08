@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.urls import path, include  
 
 urlpatterns = [
+urlpatterns = [
     path('admin/', admin.site.urls),
-    path('produtos/', include('produtos.urls')),  # 🔥 conecta a app produtos
-    path('', include('home.urls')),
+    path("api/", include('core.urls')),
+    path('produtos/', include('produtos.urls')),
+    path("", include('home.urls')),
 ]
-
