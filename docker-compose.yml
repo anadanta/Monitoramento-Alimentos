@@ -11,21 +11,24 @@ services:
     env_file:
       - ./.env.dev
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     image: mysql:8.0
-    cap_add:
-      - SYS_NICE
-    restart: always
     environment:
-      - MYSQL_DATABASE=food_waste_db
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=root_password
+      MYSQL_DATABASE: food_waste_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - '3307:3306'
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-uuser", "-ppassword", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
 volumes:
   mysql_data:
