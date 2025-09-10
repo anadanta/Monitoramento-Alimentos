@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <h1 class="text-3xl font-bold text-green-700">Formulário de Cadastro</h1>
+    
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+          <label for="{{ form.nome.id_for_label }}" class="block text-sm font-medium text-gray-700">Nome</label>
+          {{ form.nome }}
+          {% if form.nome.errors %}
+              <p class="text-red-500 text-sm">{{ form.nome.errors }}</p>
+          {% endif %}
+      </div>
+
+      <div>
+          <label for="{{ form.categoria.id_for_label }}" class="block text-sm font-medium text-gray-700">Categoria</label>
+          {{ form.categoria }}
+          {% if form.categoria.errors %}
+              <p class="text-red-500 text-sm">{{ form.categoria.errors }}</p>
+          {% endif %}
+      </div>
+
+      <div>
+          <label for="{{ form.data_validade.id_for_label }}" class="block text-sm font-medium text-gray-700">Data de Validade</label>
+          {{ form.data_validade }}
+          {% if form.data_validade.errors %}
+              <p class="text-red-500 text-sm">{{ form.data_validade.errors }}</p>
+          {% endif %}
+      </div>
+
+      <div>
+          <label for="{{ form.quantidade_disponivel.id_for_label }}" class="block text-sm font-medium text-gray-700">Quantidade</label>
+          {{ form.quantidade_disponivel }}
+          {% if form.quantidade_disponivel.errors %}
+              <p class="text-red-500 text-sm">{{ form.quantidade_disponivel.errors }}</p>
+          {% endif %}
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+          Salvar
+      </button>
+    </form>
+
+
+
+{% endblock  %}
