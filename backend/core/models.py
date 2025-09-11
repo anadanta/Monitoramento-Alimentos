@@ -1,4 +1,5 @@
 from django.db import models
+from usuarios.models import Usuarios
 
 # Create your models here.
 
@@ -13,6 +14,7 @@ class Categoria(models.Model):
         verbose_name_plural = "Categorias"
 
 class Produto(models.Model):
+    usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     nome = models.CharField(max_length=200, help_text="Nome do produto")
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='produtos')
     data_validade = models.DateField(help_text="Data de vencimento do produto")

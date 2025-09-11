@@ -18,16 +18,29 @@
             
             <!-- Logo -->
             <div class="flex-shrink-0">
-            <a href="#" class="text-xl font-bold tracking-wide">FoodMonitor</a>
+                <a href="#" class="text-xl font-bold tracking-wide">FoodMonitor</a>
             </div>
 
             <!-- Menu Desktop -->
             <div class="hidden md:flex space-x-6">
-            <a href="#" class="hover:text-green-200">Início</a>
-            <a href="#" class="hover:text-green-200">Sobre</a>
-            <a href="#" class="hover:text-green-200">Funcionalidades</a>
-            <a href="#" class="hover:text-green-200">Contato</a>
+                <a href="#" class="hover:text-green-200">Início</a>
+                <a href="#" class="hover:text-green-200">Sobre</a>
+                <a href="#" class="hover:text-green-200">Funcionalidades</a>
+                <a href="#" class="hover:text-green-200">Contato</a>
             </div>
+            
+            <!-- Botão de Entrar -->
+            {% if usuario_id %}
+                <a href="{% url 'sair' %}" 
+                class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors inline-block">
+                    Sair
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" 
+                class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors inline-block">
+                    Entrar
+                </a>
+            {% endif %}
 
             <!-- Botão Mobile -->
             <div class="md:hidden">

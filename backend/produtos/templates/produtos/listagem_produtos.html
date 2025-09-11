@@ -4,8 +4,14 @@
 
     <h1 class="text-3xl font-bold text-green-700">Listagem de Produtos</h1>
     
-    {% for produto in produtos %}
-        <p> {{ produto.nome }} </p>
-    {% endfor %}
+    {% if produtos %}
+        {% for produto in produtos %}
+            <p> {{ produto.nome }} </p>
+        {% endfor %}
+    {% else %}
+        <p class="mt-4 text-gray-600 max-w-xl mx-auto">
+            Sem produtos cadastrados.
+        </p>
+    {% endif %}
 
 {% endblock  %}
