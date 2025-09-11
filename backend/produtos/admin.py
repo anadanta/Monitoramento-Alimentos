@@ -1,3 +1,6 @@
-from django.contrib import admin
+# Arquivo: produtos/admin.py
 
-# Register your models here.
+from django.contrib import admin
+from core.models import Produto 
+
+admin.site.register(Produto)
