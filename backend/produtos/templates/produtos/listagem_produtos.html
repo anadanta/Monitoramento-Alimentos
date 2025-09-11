@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <h1 class="text-3xl font-bold text-green-700">Listagem de Produtos</h1>
+    
+    {% for produto in produtos %}
+        <p> {{ produto.nome }} </p>
+    {% endfor %}
+
+{% endblock  %}

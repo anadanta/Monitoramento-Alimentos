@@ -1,16 +1,25 @@
 from django.shortcuts import render, redirect
 from produtos.forms import ProdutoForm
+from core.models import Produto
 
 # Create your views here.
 from django.http import JsonResponse
 
 def lista_produtos(request):
-    produtos = [
-        {"id": 1, "nome": "Arroz", "quantidade": 50},
-        {"id": 2, "nome": "Feijão", "quantidade": 30},
-        {"id": 3, "nome": "Macarrão", "quantidade": 20},
-    ]
-    return JsonResponse(produtos, safe=False)
+
+    # Implementar lógica para obter o usuário
+    # usuario = 1
+    # produtos = Produto.objects.filter(usuario=usuario)
+
+    produtos = Produto.objects.all()
+
+    context = {
+        'title': 'Produtos',
+        'produtos': produtos,
+        'title': 'Listagem de Produtos',
+    }
+
+    return render(request, 'produtos/listagem_produtos.html', context)
 
 def formulario_produtos(request):
     if request.method == "POST":
