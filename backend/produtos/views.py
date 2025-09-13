@@ -1,17 +1,15 @@
 from django.shortcuts import render, redirect
 from produtos.forms import ProdutoForm
 from core.models import Produto
-
-# Create your views here.
-from django.http import JsonResponse
+from usuarios.models import Usuarios
 
 def lista_produtos(request):
+    if 'usuario_id' not in request.session:
+        return redirect('login')
 
     # Implementar lógica para obter o usuário
-    # usuario = 1
-    # produtos = Produto.objects.filter(usuario=usuario)
-
-    produtos = Produto.objects.all()
+    usuario = Usuarios.objects.get(id=request.session['usuario_id'])
+    produtos = Produto.objects.filter(usuario=usuario)
 
     context = {
         'title': 'Produtos',
@@ -22,11 +20,18 @@ def lista_produtos(request):
     return render(request, 'produtos/listagem_produtos.html', context)
 
 def formulario_produtos(request):
+    if 'usuario_id' not in request.session:
+        return redirect('login')
+    
     if request.method == "POST":
         form = ProdutoForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('lista_produtos')
+            produto = form.save(commit=False)
+            usuario_id = request.session.get('usuario_id')
+            if usuario_id:
+                produto.usuario_id = usuario_id
+                form.save()
+                return redirect('lista_produtos')
     else:
         form = ProdutoForm()
     

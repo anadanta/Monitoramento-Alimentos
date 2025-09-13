@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen w-screen flex items-center justify-center bg-gray-100">
+  
+  <div class="w-full max-w-6xl bg-white shadow-lg rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+
+    <!-- Coluna do formulário -->
+    <div class="flex flex-col justify-center px-8 py-10">
+      <!-- Mensagens Django -->
+      {% if messages %}
+        <div class="mb-4 space-y-2">
+          {% for message in messages %}
+            <div class="
+              px-4 py-3 rounded-lg text-sm font-medium
+              {% if message.tags == 'success' %} bg-green-100 text-green-800 border border-green-300
+              {% elif message.tags == 'error' %} bg-red-100 text-red-800 border border-red-300
+              {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300
+              {% else %} bg-gray-100 text-gray-800 border border-gray-300
+              {% endif %}
+            ">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}
+      {% endblock content %}
+    </div>
+
+    <!-- Coluna da imagem -->
+    <div class="hidden md:flex items-center justify-center bg-green-50">
+      <img src="https://img.icons8.com/?size=512&id=11113&format=png" 
+           alt="Sistema de Monitoramento de Desperdício de Alimentos" 
+           class="max-h-96 object-contain">
+    </div>
+  </div>
+
+</body>
+</html>
