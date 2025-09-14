@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from produtos.forms import ProdutoForm
 from core.models import Produto
 from usuarios.models import Usuarios
+import datetime
+from django.contrib import messages
 
 def lista_produtos(request):
     if 'usuario_id' not in request.session:
@@ -23,15 +25,42 @@ def formulario_produtos(request):
     if 'usuario_id' not in request.session:
         return redirect('login')
     
+    form = ProdutoForm(request.POST)
+
     if request.method == "POST":
-        form = ProdutoForm(request.POST)
+        data_validade = request.POST.get('data_validade')
+        codigo = request.POST.get('codigo')
+        usuario_id = request.session.get('usuario_id')
+
+        try:
+            data_validade = datetime.datetime.strptime(data_validade, "%d/%m/%Y")
+            if (datetime.datetime.now() >= data_validade):
+                messages.error(request, "Seu produto está vencido ou venceu hoje. Digite uma data de validade válida")
+                return render(request, 'produtos/formulario_produtos.html', {
+                    'title': 'Formulário Produtos',
+                    'form': form
+                })
+        except ValueError:
+            messages.error(request, "Formato de data inválido. Use DD/MM/AAAA")
+            return render(request, 'produtos/formulario_produtos.html', {
+                'title': 'Formulário Produtos',
+                'form': form
+            })
+        
+        if Produto.objects.filter(codigo=codigo, usuario_id=usuario_id).exists():
+            messages.error(request, "Código ja cadastrado...")
+            return render(request, 'produtos/formulario_produtos.html', {
+                'title': 'Formulário Produtos',
+                'form': form
+            })
+
         if form.is_valid():
             produto = form.save(commit=False)
             usuario_id = request.session.get('usuario_id')
-            if usuario_id:
-                produto.usuario_id = usuario_id
-                form.save()
-                return redirect('lista_produtos')
+            produto.usuario_id = usuario_id
+            produto.data_validade = data_validade
+            form.save()
+            return redirect('lista_produtos')
     else:
         form = ProdutoForm()
     

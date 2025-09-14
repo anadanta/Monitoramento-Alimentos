@@ -5,45 +5,51 @@
     <h1 class="text-3xl font-bold text-green-700">Formulário de Cadastro</h1>
     
     <form method="post" class="space-y-4">
-      {% csrf_token %}
+        {% csrf_token %}
+        
+        <div>
+            <label for="nome" class="block text-sm font-medium text-gray-700">Nome Produto</label>
+            {{ form.nome }}
+        </div>
 
-      <div>
-          <label for="{{ form.nome.id_for_label }}" class="block text-sm font-medium text-gray-700">Nome</label>
-          {{ form.nome }}
-          {% if form.nome.errors %}
-              <p class="text-red-500 text-sm">{{ form.nome.errors }}</p>
-          {% endif %}
-      </div>
+        <div>
+            <label for="categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
+            {{ form.categoria }}
+        </div>
 
-      <div>
-          <label for="{{ form.categoria.id_for_label }}" class="block text-sm font-medium text-gray-700">Categoria</label>
-          {{ form.categoria }}
-          {% if form.categoria.errors %}
-              <p class="text-red-500 text-sm">{{ form.categoria.errors }}</p>
-          {% endif %}
-      </div>
+        <div>
+            <label for="data_validade" class="block text-sm font-medium text-gray-700">Data Validade</label>
+            {{ form.data_validade }}
+        </div>
 
-      <div>
-          <label for="{{ form.data_validade.id_for_label }}" class="block text-sm font-medium text-gray-700">Data de Validade</label>
-          {{ form.data_validade }}
-          {% if form.data_validade.errors %}
-              <p class="text-red-500 text-sm">{{ form.data_validade.errors }}</p>
-          {% endif %}
-      </div>
+        <div>
+            <label for="unidade_medida" class="block text-sm font-medium text-gray-700">Unidade de Medida</label>
+            {{ form.unidade_medida }}
+        </div>
 
-      <div>
-          <label for="{{ form.quantidade_disponivel.id_for_label }}" class="block text-sm font-medium text-gray-700">Quantidade</label>
-          {{ form.quantidade_disponivel }}
-          {% if form.quantidade_disponivel.errors %}
-              <p class="text-red-500 text-sm">{{ form.quantidade_disponivel.errors }}</p>
-          {% endif %}
-      </div>
+        <div>
+            <label for="quantidade_disponivel" class="block text-sm font-medium text-gray-700">Quantidade Disponível</label>
+            {{ form.quantidade_disponivel }}
+        </div>
 
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-          Salvar
-      </button>
+        <div>
+            <label for="codigo" class="block text-sm font-medium text-gray-700">Código</label>
+            {{ form.codigo }}
+        </div>
+      
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+            Cadastrar
+        </button>
     </form>
 
+    <!-- Scipts para mascara de formatação -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
+    <script>
+        $('#data_validade').mask('00/00/0000');
+        $('#quantidade_disponivel').mask('#', {reverse: true});
+        $('#codigo').mask('#', {reverse: true});
+    </script>
 
 {% endblock  %}
