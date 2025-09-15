@@ -1,10 +1,79 @@
-{% extends 'base.html' %}
 {% load static %}
-{% block content %}
 
-    <h1 class="text-3xl font-bold text-green-700">Bem-vindo ao FoodMonitor</h1>
-    <p class="mt-4 text-gray-600 max-w-xl mx-auto">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static "js/script.js" %}"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- NAVBAR -->
+    <nav class="bg-green-700 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <a href="#" class="text-xl font-bold tracking-wide">FoodMonitor</a>
+            </div>
+
+            <!-- Menu Desktop -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-green-200">Início</a>
+                <a href="#" class="hover:text-green-200">Sobre</a>
+                <a href="#" class="hover:text-green-200">Funcionalidades</a>
+                <a href="#" class="hover:text-green-200">Contato</a>
+            </div>
+            
+            <!-- Botão de Entrar -->
+            <a href="{% url 'lista_produtos' %}" 
+            class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors inline-block">
+                Minha Conta
+            </a>
+
+            <!-- Botão Mobile -->
+            <div class="md:hidden">
+            <button id="menu-btn" class="focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="menu" class="hidden md:hidden bg-green-800">
+        <a href="#" class="block px-4 py-2 hover:bg-green-600">Início</a>
+        <a href="#" class="block px-4 py-2 hover:bg-green-600">Sobre</a>
+        <a href="#" class="block px-4 py-2 hover:bg-green-600">Funcionalidades</a>
+        <a href="#" class="block px-4 py-2 hover:bg-green-600">Contato</a>
+        </div>
+    </nav>
+    
+    <main class="flex-grow p-6 text-center">
+      <h1 class="text-3xl font-bold text-green-700">Bem-vindo ao FoodMonitor</h1>
+      <p class="mt-4 text-gray-600 max-w-xl mx-auto">
       Um sistema inteligente para evitar desperdício, perda e promover o consumo sustentável dos alimentos.
-    </p>
-
-{% endblock  %}
+      </p>
+    </main>
+    
+    <!-- FOOTER -->
+    <footer class="bg-green-700 text-white py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+        
+        <p class="text-sm">&copy; 2025 FoodMonitor - Todos os direitos reservados.</p>
+        
+        <div class="flex space-x-4 mt-3 md:mt-0">
+            <a href="#" class="hover:text-green-300">Política de Privacidade</a>
+            <a href="#" class="hover:text-green-300">Termos de Uso</a>
+        </div>
+        </div>
+    </footer>
+</body>
+</html>

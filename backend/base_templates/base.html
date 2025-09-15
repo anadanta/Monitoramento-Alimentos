@@ -1,9 +1,29 @@
-{% include "partials/_header.html" %}
+{% include "partials/_sidebar.html" %}
 
-    <main class="flex-grow p-6 text-center">
-        {% block content %}
+    <div class="p-4 sm:ml-64">
+        <div class="p-4 rounded-lg dark:border-gray-700 mt-10"></div>
+            {% if messages %}
+                <div class="mb-4 space-y-2">
+                    {% for message in messages %}
+                        <div class="
+                            px-4 py-3 rounded-lg text-sm font-medium
+                            {% if message.tags == 'success' %} bg-green-100 text-green-800 border border-green-300
+                            {% elif message.tags == 'error' %} bg-red-100 text-red-800 border border-red-300
+                            {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300
+                            {% else %} bg-gray-100 text-gray-800 border border-gray-300
+                            {% endif %}
+                            ">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-        {% endblock content %}
-    </main>
+            {% block content %}
 
-{% include "partials/_footer.html" %}
+            {% endblock content %}
+        </div>
+    </div>
+
+</body>
+</html>
