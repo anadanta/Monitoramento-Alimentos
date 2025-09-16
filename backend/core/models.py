@@ -42,7 +42,7 @@ class Produto(models.Model):
     quantidade_disponivel = models.PositiveIntegerField(help_text="Quantidade em estoque")
     unidade_medida = models.CharField(max_length=20, choices=UnidadeMedida.choices, default=UnidadeMedida.UN, null=True, blank=True)
     status = models.CharField(max_length=20, choices=StatusProduto.choices, null=True, blank=True)
-    codigo = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    codigo = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return f"{self.nome} (Validade: {self.data_validade.strftime('%d/%m/%Y')})"

@@ -9,11 +9,13 @@ class ProdutoForm(forms.ModelForm):
             'nome': forms.TextInput(attrs={
                 'class': 'w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none',
                 'placeholder': 'Digite o nome do produto',
-                'required': 'required'
+                'required': 'required',
+                'id': 'nome'
             }),
             'categoria': forms.Select(attrs={
                 'class': 'w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none',
-                'required': 'required'
+                'required': 'required',
+                'id': 'categoria'
             }),
             'data_validade': forms.TextInput(attrs={
                 'class': 'w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none',
@@ -23,7 +25,8 @@ class ProdutoForm(forms.ModelForm):
             }),
             'unidade_medida': forms.Select(attrs={
                 'class': 'w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none',
-                'required': 'required'
+                'required': 'required',
+                'id': 'unidade_medida'
             }),
             'quantidade_disponivel': forms.TextInput(attrs={
                 'class': 'w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none',
