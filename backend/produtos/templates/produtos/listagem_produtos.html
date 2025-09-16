@@ -3,17 +3,80 @@
 {% block content %}
 
     <div class="relative overflow-x-auto sm:rounded-lg">
-        <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
-            <label for="table-search" class="sr-only">Search</label>
+        <form method="get" class="flex flex-wrap items-end gap-4 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <!-- Pesquisa por nome -->
             <div class="relative">
-                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                <label for="table-search-users" class="sr-only">Pesquisar</label>
+                <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users">
+                <input type="text" name="q" id="table-search-users" placeholder="Pesquisar produto..."
+                    value="{{ request.GET.q }}"
+                    class="block p-2 ps-10 text-sm border border-gray-300 rounded-lg w-60 bg-gray-50 
+                        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
+                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
-        </div>
+
+            <!-- Filtro de status -->
+            <div>
+                <label for="status" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                <select name="status" id="status"
+                    class="block w-40 p-2 text-sm border border-gray-300 rounded-lg 
+                        bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="">Todos</option>
+                    {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filtro por categoria -->
+            <div>
+                <label for="categoria" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
+                <select name="categoria" id="categoria"
+                    class="block w-40 p-2 text-sm border border-gray-300 rounded-lg 
+                        bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="">Todas</option>
+                    {% for cat in categorias %}
+                        <option value="{{ cat.id }}" {% if request.GET.categoria == cat.id|stringformat:"s" %}selected{% endif %}>
+                            {{ cat.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Intervalo de datas -->
+            <div>
+                <label for="data_inicio" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Data início</label>
+                <input type="date" id="data_inicio" name="data_inicio" value="{{ request.GET.data_inicio }}"
+                    class="border border-gray-300 rounded-lg p-2 text-sm dark:bg-gray-700 dark:text-white">
+            </div>
+            <div>
+                <label for="data_fim" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Data fim</label>
+                <input type="date" id="data_fim" name="data_fim" value="{{ request.GET.data_fim }}"
+                    class="border border-gray-300 rounded-lg p-2 text-sm dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <!-- Botões -->
+            <div class="flex gap-2">
+                <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Filtrar
+                </button>
+                <a href="{% url 'lista_produtos' %}"
+                    class="px-4 py-2 bg-gray-300 text-gray-900 rounded-lg hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500">
+                    Limpar
+                </a>
+            </div>
+        </form>
+
+
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -22,9 +85,34 @@
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Data de Validade
+                        <a href="?sort={% if request.GET.sort == 'data_asc' %}data_desc{% else %}data_asc{% endif %}
+                            {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+                            {% if request.GET.status %}&status={{ request.GET.status }}{% endif %}"
+                            class="ml-2">
+
+                            {% if request.GET.sort == 'data_asc' %}
+                                🔽  {# já está crescente → mostra seta para baixo (próximo clique será desc) #}
+                            {% else %}
+                                🔼  {# já está decrescente ou sem ordenação → mostra seta para cima (próximo clique será asc) #}
+                            {% endif %}
+                        </a>
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Status
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Quant. Estoque
+                        <a href="?sort_validade={% if request.GET.sort_validade == 'quantidade_asc' %}quantidade_desc{% else %}quantidade_asc{% endif %}
+                            {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+                            {% if request.GET.status %}&status={{ request.GET.status }}{% endif %}"
+                            class="ml-2">
+
+                            {% if request.GET.sort_validade == 'quantidade_asc' %}
+                                🔽  {# já está crescente → mostra seta para baixo (próximo clique será desc) #}
+                            {% else %}
+                                🔼  {# já está decrescente ou sem ordenação → mostra seta para cima (próximo clique será asc) #}
+                            {% endif %}
+                        </a>
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Editar
@@ -66,6 +154,12 @@
                                     </div>
                                 </div>
                             </td>
+
+                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="ps-3">
+                                    <div class="text-base font-semibold"> {{ produto.quantidade_disponivel }} </div>
+                                </div>  
+                            </th>
 
                             <td class="px-6 py-4 text-center">
                                 <button
@@ -140,6 +234,16 @@
                 });
             });
         });
+    </script>
+
+    <!-- Scipts para mascara de formatação -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script>
+        $('#data_validade').mask('00/00/0000');
+        $('#quantidade_disponivel').mask('#', {reverse: true});
+        $('#codigo').mask('#', {reverse: true});
     </script>
 
 {% endblock  %}
