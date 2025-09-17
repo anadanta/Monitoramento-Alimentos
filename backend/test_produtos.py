@@ -17,9 +17,9 @@ def test_listar_produtos():
 
 def test_criar_produto(auth_token):
     produto_novo = {
-        "nome": "Smartphone XYZ",
-        "descricao": "Um smartphone de última geração.",
-        "preco": 2500.00
+        "nome": "Arroz Branco",
+        "categoria": "Alimento",
+        "preco": 2.49
     }
     headers = {"Authorization": f"Bearer {auth_token}"}
     response = requests.post(BASE_URL, json=produto_novo, headers=headers)
@@ -40,9 +40,9 @@ def test_buscar_produto_por_id(produto_id, expected_status):
 def test_atualizar_produto_existente(auth_token):
     # Primeiro, crie um produto para depois atualizá-lo.
     produto_para_atualizar = {
-        "nome": "Notebook ABC",
-        "descricao": "Um notebook para trabalho e estudo.",
-        "preco": 3500.00
+        "nome": "Feijão Preto",
+        "categoria": "Alimento",
+        "preco": 3.96
     }
     headers = {"Authorization": f"Bearer {auth_token}"}
     response_post = requests.post(BASE_URL, json=produto_para_atualizar, headers=headers)
@@ -51,8 +51,8 @@ def test_atualizar_produto_existente(auth_token):
 
     # Agora, atualize o produto.
     dados_atualizados = {
-        "nome": "Notebook ABC (Atualizado)",
-        "preco": 3200.00
+        "nome": "Macarrão tipo semola",
+        "preco": 3.99
     }
     response_put = requests.put(f"{BASE_URL}/{produto_id}", json=dados_atualizados, headers=headers)
     assert response_put.status_code == 200
@@ -61,8 +61,8 @@ def test_atualizar_produto_existente(auth_token):
 def test_deletar_produto(auth_token):
     # Primeiro, crie um produto para depois deletá-lo.
     produto_para_deletar = {
-        "nome": "Mouse Gamer",
-        "descricao": "Mouse com alta precisão.",
+        "nome": "Costela de Porco",
+        "categoria": "Alimento",
         "preco": 150.00
     }
     headers = {"Authorization": f"Bearer {auth_token}"}
