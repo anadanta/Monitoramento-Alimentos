@@ -147,10 +147,12 @@ def formulario_produtos(request):
 
     return render(request, 'produtos/formulario_produtos.html',context)
 
+
 def deletar_produto(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
-    if request.method == "GET":
-        messages.success(request, "Produto deletado com sucesso.")
+    
+    if request.method == "POST":
         produto.delete()
-
+        messages.success(request, "Produto deletado com sucesso.")
+    
     return redirect('lista_produtos')
