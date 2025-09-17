@@ -17,8 +17,8 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: food_waste_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root_password
       MYSQL_ROOT_PASSWORD: root_password
     ports:
       - "3307:3306"
