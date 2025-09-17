@@ -8,7 +8,7 @@ BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:8000/api/produtos')
 def auth_token():
     # Substitua este trecho pela sua lógica de autenticação, se necessário.
     # Ex: fazer uma requisição para a sua rota de login e retornar o token.
-    return "SEU_TOKEN_DE_AUTENTICACAO_AQUI"
+    return "e488d81a16bade8bd64fa436bdfd94537a07c064"
 
 def test_listar_produtos():
     response = requests.get(BASE_URL)
