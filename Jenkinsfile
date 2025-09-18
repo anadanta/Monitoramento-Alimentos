@@ -12,17 +12,14 @@ pipeline {
                 git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/anadanta/Monitoramento-Alimentos.git'
             }
         }
-        stage('Setup Environment') {
+        stage('Setup and Install') {
             steps {
-                echo 'Setting up virtual environment...'
-                sh 'python3 -m venv venv'
-                sh 'source venv/bin/activate'
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                echo 'Installing dependencies...'
-                sh 'pip install -r requirements.txt'
+                echo 'Setting up and installing dependencies...'
+                sh '''
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    pip install -r requirements.txt
+                '''
             }
         }
         stage('Run Tests') {
