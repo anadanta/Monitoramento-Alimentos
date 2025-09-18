@@ -1,38 +1,28 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                echo "Clonando o repositório..."
+                echo 'Checking out code...'
+                git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/anadanta/Monitoramento-Alimentos.git'
             }
         }
-
-        stage('Install Python Dependencies') {
+        stage('Install Dependencies') {
             steps {
-                script {
-                    echo "Instalando dependências Python do requirements.txt..."
-                    sh 'pip install --user -r requirements.txt'
-                }
+                echo 'Installing dependencies...'
+                sh 'pip install -r requirements.txt'
             }
         }
-
-        stage('Run Pytest Tests') {
+        stage('Run Tests') {
             steps {
-                script {
-                    echo "Executando testes com pytest..."
-                    sh 'pytest'
-                }
+                echo 'Running tests with pytest...'
+                sh 'pytest'
             }
-        }
-    }
-
-    post {
-        success {
-            echo "Pipeline Python feito com sucesso"
-        }
-        failure {
-            echo "Pipeline Python falhou"
         }
     }
 }
