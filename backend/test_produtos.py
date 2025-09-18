@@ -40,7 +40,7 @@ def test_buscar_produto_por_id(produto_id, expected_status):
 def test_atualizar_produto_existente(auth_token):
     # Primeiro, crie um produto para depois atualizá-lo.
     produto_para_atualizar = {
-        "nome": "Feijão Preto",
+        "nome": "Feijão Cavalo",
         "categoria": "Alimento",
         "preco": 3.96
     }
