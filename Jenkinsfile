@@ -16,6 +16,7 @@ pipeline {
             steps {
                 echo 'Setting up and installing dependencies...'
                 sh '''#!/bin/bash -l
+                    cd backend
                     python3 -m venv venv
                     source venv/bin/activate
                     pip install -r requirements.txt
@@ -26,6 +27,7 @@ pipeline {
             steps {
                 echo 'Running tests with pytest...'
                 sh '''#!/bin/bash -l
+                    cd backend
                     source venv/bin/activate
                     pytest
                 '''
